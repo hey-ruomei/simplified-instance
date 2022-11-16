@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>测试 Vue-event.js 事件发布订阅</title>
+</head>
+<body>
+  <script src="./event.js"></script>
+  <script>
+    class Vue {
+      constructor() {
+        this._event = {}
+        console.log('模拟Vue, 实例对象：', this)
+      }
+    }
+    eventMixins(Vue)
+    const vm = new Vue()
+    vm.$on('testOn', function(val) {
+      console.log('1. on订阅、emit触发成功', val)
+    })
+    vm.$emit('testOn', 11111)
+    vm.$off('testOn')
+    // 取消订阅了之后，再重新emit，无法触发回调
+    vm.$emit('testOn')
+
+    vm.$once('testOnce', function(val) {
+      console.log('2. 仅订阅一次', val)
+    })
+    vm.$emit('testOnce', '第一次调用')
+    // 第二次调用，无法触发
+    vm.$emit('testOnce', '第二次调用')
+  </script>
+
+</body>
+</html>
