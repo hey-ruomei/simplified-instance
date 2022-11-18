@@ -1,8 +1,12 @@
 function eventMixins (Vue) {
   // 订阅事件
   Vue.prototype.$on = function (event, fn) {
+    // DONE 这里的写法，不加个分号在前面，会报vm cannot access before initialization
+    // 因为语法解析会将const vm = xxx后面的一行内容都当成是变量声明 VariableDeclarator 中的 MemberExpression
+    // 加了分号后则 vm 的声明和后面的条件表达式就得以分开，该行变成了独立的表达式声明 ExpressionStatement
+    // https://astexplorer.net/ 把代码贴进去看看解析结果
+    // https://juejin.cn/post/6844904035271573511
     const vm = this
-    // TODO 这里的写法，不加个分号在前面，会报vm cannot access before initialization，为什么呢
     ;(vm._event[event] || (vm._event[event] = [])).push(fn)
     return vm
   }
