@@ -87,7 +87,7 @@ MyPromise.prototype.catch = function (onRejected) {
 }
 
 MyPromise.prototype.resolve = function (val) {
-  return new MyPromise(resolve, reject) {
+  return new MyPromise((resolve, reject) => {
     if (val instanceof MyPromise) {
       val.then(val => {
         resolve(val)
@@ -97,7 +97,7 @@ MyPromise.prototype.resolve = function (val) {
     } else {
       resolve(val)
     }
-  }
+  })
 }
 MyPromise.prototype.reject = function (err) {
   return new MyPromise((resolve, reject) => {
