@@ -64,7 +64,9 @@ Function.prototype.myBind = function (context) {
     throw new Error('Expected this is a function')
   }
   let self = this
+  // 调用 myBind 时传入的参数
   let args = [...arguments].slice(1)
+  // innerArg: 调用 bind 绑定后返回的函数时的参数
   const fn = function (...innerArg) {
     const isNew = this instanceof fn // 返回的fn是否通过new调用
     return self.apply(isNew ? this : Object(context), args.concat(innerArg)) // new调用就绑定到this上,否则就绑定到传入的context上
